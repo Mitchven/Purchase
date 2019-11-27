@@ -1,0 +1,11 @@
+{
+  "name": "purchase_siya-20191011t055648z-001",
+  "version": "1.0.0",
+  "description": "Java",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mars",
+  "license": "ISC"
+}
