@@ -1,9 +1,8 @@
 package purchase;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class RegisterP extends javax.swing.JFrame {
@@ -185,45 +184,39 @@ public class RegisterP extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameActionPerformed
 
     private void registerPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerPActionPerformed
-        // TODO add your handling code here:
+        String uname1 = username.getText();
+        String pass1 = password.getText();
+        String age11 = age.getText();
+
+        int myAge = Integer.parseInt(age11);
         try {
-            // create a mysql database connection
-            String myDriver = "org.gjt.mm.mysql.Driver";
             String myUrl = "jdbc:mysql://localhost/mmgspharmacy";
-            Class.forName(myDriver);
-            Connection conn = DriverManager.getConnection(myUrl, "root", "");
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(myUrl, "root", "");
+            java.sql.Statement stmt = con.createStatement();
 
-            // the mysql insert statement
-            //register is the register name for the table in the database
-            String query = " insert into register(username,password,age)"
-                    + " values (?,?,?)";
+            System.out.println("nag read siya dito");
 
-            // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1, username.getText());
-            preparedStmt.setString(2, password.getText());
-            preparedStmt.setString(3, age.getText());
+            String querys = "INSERT INTO `userpharm`(`username`,`password`,`age`)" + " VALUES ('" + uname1 + "','" + pass1 + "'," + myAge + ")";
 
-            // execute the preparedstatement
-            preparedStmt.execute();
+            stmt.executeUpdate(querys);
 
-            conn.close();
-        } catch (Exception e) {
+            LoginP login = new LoginP();
+            login.setVisible(true);
+            this.dispose();
+            JOptionPane.showMessageDialog(rootPane, "Successfully Registered!!!");
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
             System.err.println("Got an exception!");
-            System.err.println(e.getMessage());
         }
-        LoginP login = new LoginP();
-        login.setVisible(true);
-        dispose();
-        JOptionPane.showMessageDialog(null, "Successfully Registered!!!");
 
-    
+
     }//GEN-LAST:event_registerPActionPerformed
 
-/**
- * @param args the command line arguments
- */
-public static void main(String args[]) {
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -234,28 +227,24 @@ public static void main(String args[]) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(RegisterP.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(RegisterP.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(RegisterP.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RegisterP.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

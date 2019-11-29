@@ -5,10 +5,21 @@
  */
 package purchase;
 
+import Connection.MyConnection;
+import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  *
@@ -21,6 +32,7 @@ public class LoginP extends javax.swing.JFrame {
      */
     public LoginP() {
         initComponents();
+
     }
 
     /**
@@ -33,8 +45,8 @@ public class LoginP extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        username = new javax.swing.JTextField();
-        password = new javax.swing.JPasswordField();
+        username1 = new javax.swing.JTextField();
+        password1 = new javax.swing.JPasswordField();
         loginBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -47,15 +59,20 @@ public class LoginP extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        username.addActionListener(new java.awt.event.ActionListener() {
+        username1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
+                username1ActionPerformed(evt);
             }
         });
 
         loginBtn.setBackground(new java.awt.Color(0, 255, 255));
         loginBtn.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         loginBtn.setText("Login");
+        loginBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loginBtnMouseClicked(evt);
+            }
+        });
         loginBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginBtnActionPerformed(evt);
@@ -114,7 +131,7 @@ public class LoginP extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(username1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -123,7 +140,7 @@ public class LoginP extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel3)
                         .addGap(35, 35, 35)
-                        .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(password1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(200, 200, 200)
                         .addComponent(loginBtn))
@@ -140,11 +157,11 @@ public class LoginP extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(username1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(password1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addComponent(loginBtn)
@@ -175,40 +192,26 @@ public class LoginP extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+    private void username1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_username1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
+    }//GEN-LAST:event_username1ActionPerformed
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-        // TODO add your handling code here:
-        try {
-            // create a mysql database connection
-            String myDriver = "org.gjt.mm.mysql.Driver";
-            String myUrl = "jdbc:mysql://localhost/mmgspharmacy";
-            Class.forName(myDriver);
-            Connection conn = DriverManager.getConnection(myUrl, "root", "");
 
-            // the mysql insert statement
-            //register is the register name for the table in the database
-            String query = " insert into login(username,password)"
-                    + " values (?,?)";
-            // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1, username.getText());
-            preparedStmt.setString(2, password.getText());
+            }
 
-            // execute the preparedstatement
-            preparedStmt.execute();
+            private void connect(JTextField username, JPasswordField password) {
+                Connection con;
+                Statement st;
+                ResultSet rs;
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    con = DriverManager.getConnection("jdbc:sqlserver://localhost:127.0.0.1/mmgspharmacy", "sa", "p@ssw0rd");
+                    st = (Statement) con.createStatement();
+                    String str = "insert into Table1 values('"+username+"','"+password+"')";
+                } catch (Exception ex) {
+                }
 
-            conn.close();
-        } catch (Exception e) {
-            System.err.println("Got an exception!");
-            System.err.println(e.getMessage());
-        }
-        PharmacistsAct login = new PharmacistsAct();
-        login.setVisible(true);
-        dispose();
-        JOptionPane.showMessageDialog(null, "Successfully Registered!!!");
 
     }//GEN-LAST:event_loginBtnActionPerformed
 
@@ -222,40 +225,74 @@ public class LoginP extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_registerMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseClicked
+        String uname = username1.getText();
+        String pass = password1.getText();
+        boolean exist = false;
+        
+        try{
+            String myUrl = "jdbc:mysql://localhost/mmgspharmacy";
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(myUrl, "root", "");
+            java.sql.Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `user` WHERE `username`='"+uname+"'");
+            
+            while(rs.next()){
+                if(rs.getString("username").equals(uname)){
+                    if(rs.getString("password").equals(pass)){
+                        this.dispose();
+                        new PharmacistsAct(uname).setVisible(true);
+                        JOptionPane.showMessageDialog(rootPane,"Logged in successfully!");
+                    }
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginP().setVisible(true);
+            if(exist == false){
+                JOptionPane.showMessageDialog(rootPane,"Invalid credentials!");
             }
-        });
-    }
+
+            con.close();
+        } catch(HeadlessException | ClassNotFoundException | SQLException e){
+            JOptionPane.showMessageDialog(rootPane,"Error Connecting to database!");
+        
+        
+        
+        }
+    }//GEN-LAST:event_loginBtnMouseClicked
+
+            /**
+             * @param args the command line arguments
+             */
+            public static void main(String args[]) {
+                /* Set the Nimbus look and feel */
+                //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+                /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+                 */
+                try {
+                    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                        if ("Nimbus".equals(info.getName())) {
+                            javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                            break;
+                        }
+                    }
+                } catch (ClassNotFoundException ex) {
+                    java.util.logging.Logger.getLogger(LoginP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    java.util.logging.Logger.getLogger(LoginP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    java.util.logging.Logger.getLogger(LoginP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+                    java.util.logging.Logger.getLogger(LoginP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+                //</editor-fold>
+                //</editor-fold>
+                /* Create and display the form */
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        new LoginP().setVisible(true);
+                    }
+                });
+            }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -265,8 +302,8 @@ public class LoginP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JButton loginBtn;
-    private javax.swing.JPasswordField password;
+    private javax.swing.JPasswordField password1;
     private javax.swing.JLabel register;
-    private javax.swing.JTextField username;
+    private javax.swing.JTextField username1;
     // End of variables declaration//GEN-END:variables
 }

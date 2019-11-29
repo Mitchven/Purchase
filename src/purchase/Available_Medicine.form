@@ -108,12 +108,126 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="18">
-                <Column editable="true" title="ID" type="java.lang.Integer"/>
-                <Column editable="true" title="GENERIC NAME" type="java.lang.String"/>
-                <Column editable="true" title="BRAND NAME" type="java.lang.String"/>
-                <Column editable="true" title="DESCRIPTION" type="java.lang.String"/>
-                <Column editable="true" title="PRICE" type="java.lang.Integer"/>
-                <Column editable="true" title="QUANTITY" type="java.lang.Integer"/>
+                <Column editable="true" title="ID" type="java.lang.Integer">
+                  <Data value="0"/>
+                  <Data value="1"/>
+                  <Data value="2"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                </Column>
+                <Column editable="true" title="GENERIC NAME" type="java.lang.String">
+                  <Data value="Cetirizine"/>
+                  <Data value="MEN thole &amp; zink OKS ide"/>
+                  <Data value="Loratadine"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                </Column>
+                <Column editable="true" title="BRAND NAME" type="java.lang.String">
+                  <Data value="Zyrtec"/>
+                  <Data value="Calmoseptine(Sachet)"/>
+                  <Data value="Claritin"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                </Column>
+                <Column editable="true" title="DESCRIPTION" type="java.lang.String">
+                  <Data value="Treats symptoms such as itching"/>
+                  <Data value="Treat minor cuts, scrapes, or burns"/>
+                  <Data value="Treats symptoms such as itching"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                </Column>
+                <Column editable="true" title="PRICE" type="java.lang.Integer">
+                  <Data value="20"/>
+                  <Data value="42"/>
+                  <Data value="18"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                </Column>
+                <Column editable="true" title="QUANTITY" type="java.lang.Integer">
+                  <Data value="45"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                </Column>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

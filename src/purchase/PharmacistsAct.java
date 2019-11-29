@@ -8,7 +8,6 @@ package purchase;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,13 +18,24 @@ import javax.swing.JTextField;
  * @author gamboama_sd2022
  */
 public class PharmacistsAct extends javax.swing.JFrame {
-
+    
+    
+    String uname;
     /**
      * Creates new form PharmacistsAct
      */
-    public PharmacistsAct() {
+    
+    private PharmacistsAct() {
         initComponents();
     }
+    
+    public PharmacistsAct(String username1) {
+        initComponents();
+        uname = username1;
+        this.setTitle("Menu");
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,6 +53,7 @@ public class PharmacistsAct extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        medicineNavbar = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,6 +126,11 @@ public class PharmacistsAct extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(0, 255, 255));
         jButton2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jButton2.setText("Delete Medicine");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(0, 255, 255));
         jButton3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -125,57 +141,67 @@ public class PharmacistsAct extends javax.swing.JFrame {
             }
         });
 
+        medicineNavbar.setBackground(new java.awt.Color(0, 255, 255));
+        medicineNavbar.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        medicineNavbar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Medicine for Allergies", "Medicine for Body Pain", "Medicine for Cough", "Medicine for Headace" }));
+        medicineNavbar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                medicineNavbarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(26, 26, 26)
+                .addComponent(medicineNavbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53)
                 .addComponent(jButton1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addGap(25, 25, 25))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton3)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1)))
+                    .addComponent(medicineNavbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Logout regFace = new Logout();
-        regFace.setVisible(true);
+
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
         try {
             int rows = table.getRowCount();
             String myDriver = "org.gjt.mm.mysql.Driver";
             String myUrl = "jdbc:mysql://localhost/mmgspharmacy";
             Class.forName("org.gjt.mm.mysql.Driver").newInstance();
-//            conn = DriverManager.getConnection("jdbc:mysql://localhost/mmgspharmacy", user, pass);
             Class.forName(myDriver);
             Connection conn = DriverManager.getConnection(myUrl, "root", "");
             conn.setAutoCommit(false);
-
-//            String query = "Insert into medicine(Id,Generic_Name,Brand_Name,Description,Price,Quantity) values (?,?,?,?,?)";
-//            
+            
             for (int row = 0; row < rows; row++) {
                 JTextField Generic = new JTextField(25);
                 Generic.setLocation(5, 10);
@@ -188,7 +214,6 @@ public class PharmacistsAct extends javax.swing.JFrame {
                 JPanel myPanel = new JPanel();
                 myPanel.add(new JLabel("Generic Name:"));
                 myPanel.add(Generic);
-//        myPanel.add(Box.createHorizontalStrut(15)); // a spacer
                 myPanel.add(new JLabel("Brand Name:"));
                 myPanel.add(Brand);
                 myPanel.add(new JLabel("Description:"));
@@ -200,7 +225,7 @@ public class PharmacistsAct extends javax.swing.JFrame {
 
                 int result = JOptionPane.showConfirmDialog(null, myPanel,
                         "Add Medicine", JOptionPane.OK_CANCEL_OPTION);
-                
+
                 String Generic_Name = (String) table.getValueAt(row, 1);
                 String Brand_Name = (String) table.getValueAt(row, 2);
                 String Description = (String) table.getValueAt(row, 3);
@@ -217,6 +242,24 @@ public class PharmacistsAct extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void medicineNavbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medicineNavbarActionPerformed
+        Object selected = medicineNavbar.getSelectedItem();
+
+        if (selected.equals("Medicine For Headache")) {
+//            table.setModel(pt.tableHeadache());
+        } else if (selected.equals("Medicine For Cough")) {
+//            table.setModel(pt.tableCough());
+        } else if (selected.equals("Medicine For Allergies")) {
+//            table.setModel(pt.tableAllergies());
+        } else if (selected.equals("Medicine For Body pain")) {
+//            table.setModel(pt.tableBodyPain());
+        }
+    }//GEN-LAST:event_medicineNavbarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -260,6 +303,7 @@ public class PharmacistsAct extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> medicineNavbar;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

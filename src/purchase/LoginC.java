@@ -5,6 +5,7 @@
  */
 package purchase;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.Statement;
@@ -12,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -62,6 +64,11 @@ public class LoginC extends javax.swing.JFrame {
         loginBtn.setBackground(new java.awt.Color(0, 255, 255));
         loginBtn.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         loginBtn.setText("Login");
+        loginBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loginBtnMouseClicked(evt);
+            }
+        });
         loginBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginBtnActionPerformed(evt);
@@ -183,52 +190,52 @@ public class LoginC extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameActionPerformed
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-        try {
-            // create a mysql database connection
-            String myDriver = "org.gjt.mm.mysql.Driver";
-            String myUrl = "jdbc:mysql://localhost/mmgspharmacy";
-            Class.forName(myDriver);
-            Connection conn = DriverManager.getConnection(myUrl, "root", "");
-
-            // the mysql insert statement
-            //register is the register name for the table in the database
-            String query = " insert into login(username,password)"
-                    + " values (?,?)";
-
-            // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1, username.getText());
-            preparedStmt.setString(2, password.getText());
-
-            // execute the preparedstatement
-            preparedStmt.execute();
-
-            conn.close();
-        } catch (Exception e) {
-            System.err.println("Got an exception!");
-            System.err.println(e.getMessage());
-        }
-        MMGsPharmacy login = new MMGsPharmacy();
-        login.setVisible(true);
-        dispose();
-        JOptionPane.showMessageDialog(null, "Successfully Registered!!!");
-        
-        loginBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                String puname = username.getText();
-                String ppaswd = password.getText();
-                connect(username, password);
-                if (puname.equals("mars") && ppaswd.equals("p@ssw0rd")) {
-                    MMGsPharmacy regFace = new MMGsPharmacy();
-                    regFace.setVisible(true);
-                    dispose();
-                } else {
-
-                    JOptionPane.showMessageDialog(null, "Wrong Password / Username");
-                    username.setText("");
-                    password.setText("");
-                }
-
+//        try {
+//            // create a mysql database connection
+//            String myDriver = "org.gjt.mm.mysql.Driver";
+//            String myUrl = "jdbc:mysql://localhost/mmgspharmacy";
+//            Class.forName(myDriver);
+//            Connection conn = DriverManager.getConnection(myUrl, "root", "");
+//
+//            // the mysql insert statement
+//            //register is the register name for the table in the database
+//            String query = " insert into login(username,password)"
+//                    + " values (?,?)";
+//
+//            // create the mysql insert preparedstatement
+//            PreparedStatement preparedStmt = conn.prepareStatement(query);
+//            preparedStmt.setString(1, username.getText());
+//            preparedStmt.setString(2, password.getText());
+//
+//            // execute the preparedstatement
+//            preparedStmt.execute();
+//
+//            conn.close();
+//        } catch (Exception e) {
+//            System.err.println("Got an exception!");
+//            System.err.println(e.getMessage());
+//        }
+//        MMGsPharmacy login = new MMGsPharmacy();
+//        login.setVisible(true);
+//        dispose();
+//        JOptionPane.showMessageDialog(null, "Successfully Registered!!!");
+//        
+//        loginBtn.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent ae) {
+//                String puname = username.getText();
+//                String ppaswd = password.getText();
+//                connect(username, password);
+//                if (puname.equals("mars") && ppaswd.equals("p@ssw0rd")) {
+//                    MMGsPharmacy regFace = new MMGsPharmacy();
+//                    regFace.setVisible(true);
+//                    dispose();
+//                } else {
+//
+//                    JOptionPane.showMessageDialog(null, "Wrong Password / Username");
+//                    username.setText("");
+//                    password.setText("");
+//                }
+//
             }
 
             private void connect(JTextField username, JPasswordField password) {
@@ -243,9 +250,9 @@ public class LoginC extends javax.swing.JFrame {
 //                    st.executeUpdate(str);
                 } catch (Exception ex) {
                 }
-            }
+//            }
 
-        });
+//        });
 
     }//GEN-LAST:event_loginBtnActionPerformed
 
@@ -255,6 +262,46 @@ public class LoginC extends javax.swing.JFrame {
         regFace.setVisible(true);
         dispose();
     }//GEN-LAST:event_registerMouseClicked
+
+    private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseClicked
+        String uname = username.getText();
+        String pass = password.getText();
+        boolean exist = false;
+        
+        try{
+            String myUrl = "jdbc:mysql://localhost/mmgspharmacy";
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(myUrl, "root", "");
+            java.sql.Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `user` WHERE `username`='"+uname+"'");
+            
+            while(rs.next()){
+                if(rs.getString("username").equals(uname)){
+                    if(rs.getString("password").equals(pass)){
+                        this.dispose();
+                        new MMGsPharmacy(uname).setVisible(true);
+                        JOptionPane.showMessageDialog(rootPane,"Logged in successfully!");
+                    }
+                }
+            }
+            if(exist == false){
+                JOptionPane.showMessageDialog(rootPane,"Invalid credentials!");
+            }
+
+            con.close();
+        } catch(HeadlessException | ClassNotFoundException | SQLException e){
+            JOptionPane.showMessageDialog(rootPane,"Error Connecting to database!");
+        
+        
+        
+        }
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_loginBtnMouseClicked
 
     /**
      * @param args the command line arguments

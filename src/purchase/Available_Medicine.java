@@ -69,9 +69,9 @@ public class Available_Medicine extends javax.swing.JFrame {
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
+                { new Integer(0), "Cetirizine", "Zyrtec", "Treats symptoms such as itching",  new Integer(20),  new Integer(45)},
+                { new Integer(1), "MEN thole & zink OKS ide", "Calmoseptine(Sachet)", "Treat minor cuts, scrapes, or burns",  new Integer(42), null},
+                { new Integer(2), "Loratadine", "Claritin", "Treats symptoms such as itching",  new Integer(18), null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},

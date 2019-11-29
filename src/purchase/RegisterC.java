@@ -5,11 +5,9 @@
  */
 package purchase;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -184,36 +182,33 @@ public class RegisterC extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameActionPerformed
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
+        String uname = username.getText();
+        String pass = password.getText();
+        String age1 = age.getText();
+
+        int myAge = Integer.parseInt(age1);
+
         try {
-            // create a mysql database connection
-            String myDriver = "org.gjt.mm.mysql.Driver";
             String myUrl = "jdbc:mysql://localhost/mmgspharmacy";
-            Class.forName(myDriver);
-            Connection conn = DriverManager.getConnection(myUrl, "root", "");
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(myUrl, "root", "");
+            java.sql.Statement stmt = con.createStatement();
+            
+            System.out.println("nag read siya dito");
+            String query = "INSERT INTO `user`(`username`,`password`,`age`)" + " VALUES ('" + uname + "','" + pass + "'," + myAge + ")";
 
-            // the mysql insert statement
-            //register is the register name for the table in the database
-            String query = " insert into register(username,password,age)"
-                    + " values (?,?,?)";
+            stmt.executeUpdate(query);
 
-            // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1, username.getText());
-            preparedStmt.setString(2, password.getText());
-            preparedStmt.setString(3, age.getText());
+            LoginC login = new LoginC();
+            login.setVisible(true);
+            this.dispose();
+            JOptionPane.showMessageDialog(rootPane, "Successfully Registered!!!");
 
-            // execute the preparedstatement
-            preparedStmt.execute();
-
-            conn.close();
-        } catch (Exception e) {
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
             System.err.println("Got an exception!");
-            System.err.println(e.getMessage());
         }
-        LoginC login = new LoginC();
-        login.setVisible(true);
-        dispose();
-        JOptionPane.showMessageDialog(null, "Successfully Registered!!!");
+
     }//GEN-LAST:event_registerBtnActionPerformed
 
     private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed

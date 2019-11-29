@@ -192,7 +192,7 @@ public class PurchaseMedicine extends javax.swing.JFrame {
     }//GEN-LAST:event_backMouseClicked
 
     private void tableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tableComponentAdded
-//        Object[][] data = {};
+
     }//GEN-LAST:event_tableComponentAdded
 
     /**

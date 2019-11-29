@@ -19,12 +19,24 @@ import javax.swing.JTextField;
  */
 public class MMGsPharmacy extends javax.swing.JFrame {
 
+    
+    String uname;
+    
+    
     /**
      * Creates new form MMGsPharmacy
      */
     public MMGsPharmacy() {
         initComponents();
     }
+    
+    public MMGsPharmacy(String username) {
+        initComponents();
+        uname = username;
+        this.setTitle("Menu");
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -258,11 +270,10 @@ public class MMGsPharmacy extends javax.swing.JFrame {
     }//GEN-LAST:event_inputtedActionPerformed
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-        // TODO add your handling code here:
+
         submit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 String text = inputted.getText();
-//                inputField.append(text + newline);
                 if ("1".equals(text)) {
                     inputted.selectAll();
                     Available_Medicine regFace = new Available_Medicine();
@@ -285,8 +296,6 @@ public class MMGsPharmacy extends javax.swing.JFrame {
                         "Pay Bill", JOptionPane.OK_CANCEL_OPTION);
                 } else {
                     inputted.selectAll();
-                    Logout regFace = new Logout();
-                    regFace.setVisible(true);
                     dispose();
                 }
             }
