@@ -235,12 +235,14 @@ public class LoginP extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(myUrl, "root", "");
             java.sql.Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `user` WHERE `username`='"+uname+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `userpharm` WHERE `username`='"+uname+"'");
             
             while(rs.next()){
+                System.out.println(rs.getString("username")+"="+uname);
                 if(rs.getString("username").equals(uname)){
                     if(rs.getString("password").equals(pass)){
                         this.dispose();
+                         exist=true;
                         new PharmacistsAct(uname).setVisible(true);
                         JOptionPane.showMessageDialog(rootPane,"Logged in successfully!");
                     }

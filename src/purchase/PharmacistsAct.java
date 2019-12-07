@@ -8,6 +8,7 @@ package purchase;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,24 +19,21 @@ import javax.swing.JTextField;
  * @author gamboama_sd2022
  */
 public class PharmacistsAct extends javax.swing.JFrame {
-    
-    
+
     String uname;
+
     /**
      * Creates new form PharmacistsAct
      */
-    
     private PharmacistsAct() {
         initComponents();
     }
-    
+
     public PharmacistsAct(String username1) {
         initComponents();
         uname = username1;
         this.setTitle("Menu");
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -195,13 +193,16 @@ public class PharmacistsAct extends javax.swing.JFrame {
 
         try {
             int rows = table.getRowCount();
-            String myDriver = "org.gjt.mm.mysql.Driver";
-            String myUrl = "jdbc:mysql://localhost/mmgspharmacy";
-            Class.forName("org.gjt.mm.mysql.Driver").newInstance();
-            Class.forName(myDriver);
-            Connection conn = DriverManager.getConnection(myUrl, "root", "");
-            conn.setAutoCommit(false);
-            
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/mmgspharmacy", "root", "");
+            Statement stmt = con.createStatement();
+//            String myDriver = "org.gjt.mm.mysql.Driver";
+//            String myUrl = "jdbc:mysql://localhost/mmgspharmacy";
+//            Class.forName("org.gjt.mm.mysql.Driver").newInstance();
+//            Class.forName(myDriver);
+//            Connection conn = DriverManager.getConnection(myUrl, "root", "");
+//            conn.setAutoCommit(false);
+
             for (int row = 0; row < rows; row++) {
                 JTextField Generic = new JTextField(25);
                 Generic.setLocation(5, 10);
@@ -226,20 +227,25 @@ public class PharmacistsAct extends javax.swing.JFrame {
                 int result = JOptionPane.showConfirmDialog(null, myPanel,
                         "Add Medicine", JOptionPane.OK_CANCEL_OPTION);
 
-                String Generic_Name = (String) table.getValueAt(row, 1);
-                String Brand_Name = (String) table.getValueAt(row, 2);
-                String Description = (String) table.getValueAt(row, 3);
-                Integer Price = (Integer) table.getValueAt(row, 4);
-                Integer Quantity = (Integer) table.getValueAt(row, 5);
-                String queryco = "Insert into medicine(Generic_Name,Brand_Name,Description,Price,Quantity) values ('','','','','')";
-                PreparedStatement pst;
-                pst = conn.prepareStatement(queryco);
-                pst.execute();
+                String Generic_Name = Generic.getText();
+                String Brand_Name = Brand.getText();
+                String Description = Desc.getText();
+                Integer Price = Integer.getInteger(price.getText());
+                System.out.println("this is the price " + price.getText());
+                Integer Quantity = Integer.getInteger(quantity.getText());
+                String queryco = "Insert into medicine(GenericName,BrandName,Description,Price,Quantity) values ('" + Generic + "','" + Brand + "','" + Desc + "','" + price + "'," + quantity + ")";
+//                PreparedStatement pst;
+//                pst = con.prepareStatement(queryco);
+//                pst.execute();
+                stmt.executeUpdate(queryco);
+                con.close();
             }
 
             JOptionPane.showMessageDialog(null, "Successfully Save");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
+            
+
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

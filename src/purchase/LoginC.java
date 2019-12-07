@@ -280,6 +280,7 @@ public class LoginC extends javax.swing.JFrame {
                     if(rs.getString("password").equals(pass)){
                         this.dispose();
                         new MMGsPharmacy(uname).setVisible(true);
+                        exist = true;
                         JOptionPane.showMessageDialog(rootPane,"Logged in successfully!");
                     }
                 }
